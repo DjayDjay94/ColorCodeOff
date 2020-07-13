@@ -6,21 +6,64 @@ using UnityEngine;
 public class PointsController : MonoBehaviour
 {
     public GameObject anim;
+    public BarHandler winPoints;
+    //bool triggerWorks;
 
-    void OnTriggerEnter2D(Collider2D other)
+    void Start()
     {
-        if(other.tag == "Arrow")
-        {
-            print("Entered trigger");
-        }
+        StartCoroutine(fuckyou());
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    //void OnTriggerStay2D(Collider2D collision)
+    //{
+    //    triggerWorks = true;
+    //}
+
+    //void OnTriggerExit2D(Collider2D collision)
+    //{
+    //    triggerWorks = false;
+    //}
+
+    void Update ()
     {
-        if (Input.GetMouseButtonDown(0))
+        //if (triggerWorks)
+        if (Input.GetKeyDown("space"))
         {
-            anim.GetComponent<Animation>().Play("Perfect");
-            print("Anim is played");
+            switch (gameObject.tag)
+            {
+                case "PerfectPressed":
+                    {
+                        winPoints.health += 0.2f;
+                        anim.GetComponent<Animation>().Play("Perfect");
+                    }
+                    break;
+
+                case "Pressed":
+                    {
+                        winPoints.health += 0.1f;
+                    }
+                    break;
+
+                case "Missed":
+                    {
+                        
+                    }
+                    break;
+            }
         }
+
+
+            //yield return new WaitForFixedUpdate();
+      
+        //if (Input.GetKeyDown("space") && gameObject.tag == "Missed")
+        //{
+        //    winPoints.health -= 0.03f;
+        //}
+
+    }
+
+    IEnumerator fuckyou()
+    {
+        yield return new WaitForFixedUpdate();
     }
 }
