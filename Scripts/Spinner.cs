@@ -1,17 +1,8 @@
 ﻿using System;
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Collections.Specialized;
-using System.Threading;
-using System.Runtime.InteropServices;
-using System.Diagnostics;
 
 public class Spinner : MonoBehaviour
 {
-    Vector3 startPosition;
-
     public Material[] colorMaterials;
     public SpriteRenderer renderer;
     private int index;
@@ -19,11 +10,6 @@ public class Spinner : MonoBehaviour
     public AnimationController PerfectHit;
     public AnimationController GoodHit;
     public AnimationController BadHit;
-
-    void Start()
-    {
-        startPosition = transform.position;
-    }
 
     void Update()
     {
@@ -59,23 +45,28 @@ public class Spinner : MonoBehaviour
 
             float angleDiff = Mathf.Abs(targetAngle - transform.rotation.eulerAngles.z);
 
-            if (angleDiff < 30)
-            {
-                winPoints.health += 0.03f;
-                GoodHit.GetComponentInChildren<Animation>().Play();
-            }
-
-            else
-            {
-                winPoints.health -= 0.03f;
-                BadHit.GetComponentInChildren<Animation>().Play();
-            }
-
             if (angleDiff < 5)
             {
                 winPoints.health += 0.05f;
                 GoodHit.GetComponentInChildren<Animation>().Stop();
                 PerfectHit.GetComponentInChildren<Animation>().Play();
+                ScoreManager.scoreValue += 500;
+                CountManager.perfectCount += 1;
+            }
+            else if (angleDiff < 30)
+            {
+                winPoints.health += 0.03f;
+                GoodHit.GetComponentInChildren<Animation>().Play();
+                ScoreManager.scoreValue += 200;
+                CountManager.goodCount += 1;
+            }
+
+            else
+            {
+                winPoints.health -= 0.05f;
+                BadHit.GetComponentInChildren<Animation>().Play();
+                ScoreManager.scoreValue -= 200;
+                CountManager.missedCount += 1;
             }
 
             index = UnityEngine.Random.Range(0, colorMaterials.Length);
