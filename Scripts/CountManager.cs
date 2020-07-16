@@ -36,7 +36,7 @@ public class CountManager : MonoBehaviour
 
         if (this.gameObject.name == "PerfectText")
         {
-            count.text = "Pefect: " + perfectCount;
+            count.text = "Perfect: " + perfectCount;
             GlobalControl.Instance.Perfect = perfectCount;
         }
     }
